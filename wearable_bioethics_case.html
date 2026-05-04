@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioethics Case — Wearable SpO₂ Research Trial</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F6F4EF;--card:#FFFFFF;--warm:#EDEAE3;
+  --ink:#1A1A1A;--ink2:#444;--ink3:#888;
+  --red:#B33D26;--red-bg:rgba(179,61,38,.07);--red-border:rgba(179,61,38,.18);
+  --blue:#1F5F8B;--blue-bg:rgba(31,95,139,.07);
+  --green:#2E7D5B;--green-bg:rgba(46,125,91,.07);
+  --amber:#A67C00;--amber-bg:rgba(166,124,0,.07);
+  --rule:#D6D2CA;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);
+  line-height:1.7;font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+
+.header{margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--rule)}
+.header-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--red);
+  font-weight:500;margin-bottom:.75rem;
+}
+.header h1{
+  font-family:'DM Serif Display',serif;font-size:2.3rem;
+  line-height:1.2;color:var(--ink);font-weight:400;margin-bottom:.6rem;
+}
+.header .subtitle{font-size:1.05rem;color:var(--ink2);max-width:640px}
+
+.scenario{
+  background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--radius);padding:2rem 2.2rem;
+  margin-bottom:2.5rem;box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+.scenario::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--red);
+}
+.scenario h2{
+  font-family:'DM Serif Display',serif;font-size:1.35rem;
+  margin-bottom:1rem;font-weight:400;
+}
+.scenario p{margin-bottom:.85rem;color:var(--ink2);font-size:.95rem}
+.scenario p:last-child{margin-bottom:0}
+.highlight{
+  background:var(--red-bg);border:1px solid var(--red-border);
+  border-radius:6px;padding:.9rem 1.1rem;margin:1.2rem 0;
+  font-family:'IBM Plex Mono',monospace;font-size:.85rem;
+  color:var(--red);line-height:1.6;
+}
+
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+  margin-bottom:2.5rem;
+}
+.stat-card{
+  background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--radius);padding:1.3rem 1.4rem;
+  box-shadow:var(--shadow);text-align:center;
+}
+.stat-num{
+  font-family:'DM Serif Display',serif;font-size:2rem;
+  color:var(--red);line-height:1;margin-bottom:.35rem;
+}
+.stat-label{font-size:.78rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+
+.questions{display:flex;flex-direction:column;gap:1.5rem}
+
+.q-card{
+  background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;transition:border-color .2s;
+}
+.q-card:hover{border-color:#bbb}
+
+.q-header{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.5rem 1.8rem;cursor:pointer;user-select:none;
+}
+.q-num{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:#fff;background:var(--red);
+  border-radius:4px;padding:.25rem .55rem;
+  flex-shrink:0;margin-top:.15rem;font-weight:500;
+}
+.q-title{
+  font-family:'DM Serif Display',serif;font-size:1.15rem;
+  line-height:1.35;flex:1;
+}
+.q-toggle{
+  flex-shrink:0;width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink3);transition:transform .25s ease;margin-top:.1rem;
+}
+.q-card.open .q-toggle{transform:rotate(180deg)}
+
+.q-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.q-body-inner{
+  padding:0 1.8rem 1.6rem 1.8rem;
+  border-top:1px solid var(--rule);
+}
+.q-body-inner>*:first-child{margin-top:1.3rem}
+.q-body-inner p{color:var(--ink2);font-size:.92rem;margin-bottom:.75rem}
+.q-body-inner p:last-child{margin-bottom:0}
+
+.tension{display:flex;gap:.75rem;margin:1rem 0;flex-wrap:wrap}
+.pill{font-size:.78rem;padding:.3rem .75rem;border-radius:99px;font-weight:500;white-space:nowrap}
+.pill.for{background:var(--green-bg);color:var(--green)}
+.pill.against{background:var(--amber-bg);color:var(--amber)}
+.pill.consider{background:var(--blue-bg);color:var(--blue)}
+
+.callout{
+  background:var(--warm);border-radius:6px;
+  padding:.85rem 1.1rem;margin:1rem 0;
+  font-size:.88rem;color:var(--ink2);
+  border-left:3px solid var(--rule);
+}
+
+.footer{
+  margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--rule);
+  font-size:.8rem;color:var(--ink3);text-align:center;
+}
+
+@media(max-width:640px){
+  .page{padding:1.5rem 1rem 3rem}
+  .header h1{font-size:1.7rem}
+  .stats{grid-template-columns:1fr}
+  .scenario{padding:1.4rem 1.3rem}
+  .q-header{padding:1.2rem 1.3rem}
+  .q-body-inner{padding:0 1.3rem 1.3rem}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-label">Bioethics Discussion Case</div>
+    <h1>The Wearable Gap</h1>
+    <p class="subtitle">When consumer-grade SpO₂ sensors fail unevenly across skin tones, who bears the risk — the participant, the researcher, or the device maker?</p>
+  </header>
+
+  <section class="scenario">
+    <h2>The Scenario</h2>
+    <p>You are the research ethics review board for the <strong>Stanford Digital Health Collaborative</strong>. A faculty-led research team has been running a two-year observational study — <em>"Ambient Vitals"</em> — out of a university-affiliated outpatient clinic. The study enrolled 4,200 adult participants and issued each one a consumer wearable (Apple Watch Ultra 2 or Oura Ring Gen 3) to continuously track blood oxygen saturation (SpO₂), heart rate, and sleep metrics in daily life.</p>
+    <p>Participants check in at the clinic every 8 weeks for a brief visit. The research team reviews wearable data, logs any self-reported symptoms, and takes standard vitals. If a participant's wearable flags a sustained SpO₂ dip below 92%, the study protocol calls for a confirmatory finger-clip pulse oximeter reading. If the participant reports no symptoms and the wearable reads ≥ 95%, no further testing is done.</p>
+
+    <div class="highlight">
+      A mid-study audit has revealed that Black and Hispanic participants were <strong>2.5× more likely</strong> to have occult hypoxemia — dangerously low arterial oxygen that neither the wearable nor the finger-clip detected. The finding emerged because a sub-cohort of 380 participants had opted into periodic arterial blood gas (ABG) draws for a separate sub-study.
+    </div>
+
+    <p>The wearable's green-light PPG sensor systematically over-reports SpO₂ in individuals with higher melanin concentrations. A participant's device dashboard shows a reassuring "96–98%" while their actual oxygen may be as low as 88–90%. Self-reported symptoms — fatigue, mild breathlessness — were logged but treated as non-urgent because the sensor data looked normal.</p>
+    <p>The PI is now proposing a revised protocol: <strong>any participant the research team judges to have "high melanin skin" who reports shortness of breath or fatigue must receive a mandatory ABG draw at their next clinic visit</strong>, even if the wearable and finger-clip both read 96%.</p>
+  </section>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">2.5×</div>
+      <div class="stat-label">Occult hypoxemia disparity</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4,200</div>
+      <div class="stat-label">Enrolled participants</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">~8%</div>
+      <div class="stat-label">True SpO₂ gap (96 → 88)</div>
+    </div>
+  </div>
+
+  <div class="questions">
+
+    <!-- Q1 -->
+    <div class="q-card">
+      <div class="q-header" onclick="toggle(this)">
+        <span class="q-num">01</span>
+        <span class="q-title">Informed Consent &amp; Disclosure</span>
+        <span class="q-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="q-body"><div class="q-body-inner">
+        <p>The original consent form described the wearable as a "validated health-monitoring device" and made no mention of known accuracy gaps across skin tones. Now that the disparity is confirmed:</p>
+        <p><strong>Should the research team be required to re-consent every participant — explicitly disclosing the sensor's racial accuracy gap and offering the ABG as a voluntary alternative — rather than mandating it only for participants they classify as high-melanin?</strong></p>
+        <div class="tension">
+          <span class="pill for">Autonomy</span>
+          <span class="pill against">Paternalism risk</span>
+          <span class="pill consider">Re-consent burden</span>
+        </div>
+        <div class="callout">Consider: Does a "mandatory ABG for some" protocol reduce autonomy for the very group it aims to protect? Who decides who counts as "high melanin" — and is that classification itself an ethical problem?</div>
+        <p>The Belmont Report's respect for persons requires that participants receive enough information to make meaningful decisions about their own participation. If the team knew — or should have known — about PPG sensor bias from published literature before enrollment began, does that constitute a prior consent failure?</p>
+      </div></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card">
+      <div class="q-header" onclick="toggle(this)">
+        <span class="q-num">02</span>
+        <span class="q-title">The Standard of Measurement</span>
+        <span class="q-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="q-body"><div class="q-body-inner">
+        <p>ABG draws are the gold standard for measuring arterial oxygen, but they're invasive — a needle into the radial artery — with risks of pain, bruising, and rare complications. The wearable PPG sensor, by contrast, is passive and continuous.</p>
+        <p><strong>Should the ABG draw become the required measurement for all participants at every clinic visit, regardless of skin tone — or does the added burden outweigh the accuracy benefit for participants whose devices are performing reliably?</strong></p>
+        <div class="tension">
+          <span class="pill for">Equity in data quality</span>
+          <span class="pill against">Unnecessary invasiveness</span>
+          <span class="pill consider">Study attrition</span>
+        </div>
+        <p>Making ABG universal eliminates the problem of a researcher visually classifying skin tone — but it also imposes a painful procedure on thousands of participants whose wearable data may be perfectly accurate. Is equal treatment the same as equitable treatment here?</p>
+      </div></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card">
+      <div class="q-header" onclick="toggle(this)">
+        <span class="q-num">03</span>
+        <span class="q-title">Participant Testimony vs. Sensor Data</span>
+        <span class="q-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="q-body"><div class="q-body-inner">
+        <p>The audit found that 34 participants in the affected group had logged symptoms — fatigue, breathlessness, headaches — in the study's self-report app. In every case, the research coordinator reviewed the wearable data, saw a "normal" reading, and followed protocol: no further testing.</p>
+        <p><strong>Should the study protocol be revised so that any participant self-report of oxygen-related symptoms triggers confirmatory testing — regardless of what the wearable says?</strong></p>
+        <div class="tension">
+          <span class="pill for">Centering lived experience</span>
+          <span class="pill against">False positive burden</span>
+          <span class="pill consider">Observer bias</span>
+        </div>
+        <div class="callout">This isn't only a sensor question. It's a question about whose knowledge counts. The study's data hierarchy placed an algorithm's output above a person's report of their own body. How should a research protocol weigh subjective testimony against automated readings — especially when the automation is known to be biased?</div>
+      </div></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card">
+      <div class="q-header" onclick="toggle(this)">
+        <span class="q-num">04</span>
+        <span class="q-title">Threshold Adjustment as a Systemic Fix</span>
+        <span class="q-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="q-body"><div class="q-body-inner">
+        <p>Instead of race-based ABG mandates, the team could raise the wearable's alert threshold for <em>everyone</em> — from 92% to 96% — so that any reading below 96% triggers a clinic-based confirmatory check. This would catch true hypoxemia in darker-skinned participants but also generate false-positive alerts for lighter-skinned participants whose SpO₂ naturally dips during sleep.</p>
+        <p><strong>Is a race-neutral threshold increase a better or worse solution than a race-conscious ABG mandate? What are the tradeoffs of over-testing everyone to avoid under-testing some?</strong></p>
+        <div class="tension">
+          <span class="pill for">Race-neutral design</span>
+          <span class="pill against">Alert fatigue / attrition</span>
+          <span class="pill consider">Resource cost</span>
+        </div>
+        <p>A raised threshold treats the symptom — missed hypoxemia — without fixing the cause: a sensor that performs unevenly. It may also dilute the study's dataset with noise, reducing the statistical power the study was designed to achieve.</p>
+      </div></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card">
+      <div class="q-header" onclick="toggle(this)">
+        <span class="q-num">05</span>
+        <span class="q-title">Is It Ethical to Keep Using the Device at All?</span>
+        <span class="q-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="q-body"><div class="q-body-inner">
+        <p>The wearable's SpO₂ feature has a roughly 3× higher failure rate for participants with darker skin. The device manufacturers market these sensors for "all users" and have not issued corrections, race-specific disclaimers, or firmware updates addressing the gap.</p>
+        <p><strong>If a research tool is known to produce systematically less accurate data for a specific demographic, is it ethical to continue deploying it in a study — for any participants — until the manufacturer fixes it? Or does continued use lend institutional legitimacy to a flawed product?</strong></p>
+        <div class="tension">
+          <span class="pill for">Precautionary pause</span>
+          <span class="pill against">Halting delays all benefit</span>
+          <span class="pill consider">Researcher leverage</span>
+        </div>
+        <div class="callout">The study team didn't manufacture the sensor — but they chose it, and participants trusted their judgment. Does the institution have an obligation to pressure Apple or Oura to fix the bias? Should the IRB require evidence of equitable sensor performance before approving future wearable studies?</div>
+        <p>Consumer wearables aren't FDA-cleared as diagnostic devices. If a research protocol treats their readings as decision-relevant data — determining whether a participant gets further testing — has the study effectively elevated the device to a diagnostic role it was never validated for?</p>
+      </div></div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    Hypothetical case for ethics education and discussion purposes. No real trial or participants are described.
+  </footer>
+
+</div>
+
+<script>
+function toggle(header){
+  const card=header.parentElement;
+  const body=card.querySelector('.q-body');
+  const inner=body.querySelector('.q-body-inner');
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.q-card.open').forEach(c=>{
+    if(c!==card){c.classList.remove('open');c.querySelector('.q-body').style.maxHeight='0'}
+  });
+  if(isOpen){card.classList.remove('open');body.style.maxHeight='0'}
+  else{card.classList.add('open');body.style.maxHeight=inner.scrollHeight+'px'}
+}
+</script>
+</body>
+</html>
